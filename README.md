@@ -3,21 +3,21 @@
 ## Prerrequisitos
 
 -   Node.js (versión 18 o superior)
--   npm o yarn
+-   pnpm o yarn
 
 ## Instalación
 
 1. Clona el repositorio:
 
 ```bash
-git clone https://github.com/maurii9070/proybackendgrupo03.git
+git clone https://github.com/RocioAV/backendClinicaNodeJS.git
 cd backend
 ```
 
 2. Instala las dependencias:
 
 ```bash
-npm install
+pnpm install
 ```
 
 ## Ejecución
@@ -25,11 +25,11 @@ npm install
 ### Modo desarrollo
 
 ```bash
-npm run dev
+pnpm run dev
 ```
 
 La aplicación estará disponible en el puerto 4000 o lo que configuremos en las variables de entorno (PORT=XXXX)
 
 ## Scripts disponibles
 
--   `npm run dev` - Inicia el servidor de desarrollo
+-   `pnpm run dev` - Inicia el servidor de desarrollo
