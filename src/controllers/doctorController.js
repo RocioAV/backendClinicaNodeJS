@@ -1,5 +1,6 @@
 //controller para doctor
 import Doctor from '../models/Doctor.js'
+import Usuario from '../models/Usuario.js'
 import Especialidad from '../models/Especialidad.js'
 import bcrypt from 'bcryptjs'
 
@@ -8,12 +9,15 @@ export const registrarDoctor = async (req, res) => {
 	try {
 		const { dni, email, password, nombre, apellido, matricula, especialidad, precioConsulta, telefono } = req.body
 
-		// Verificar si el doctor ya existe por email o DNI
-		const doctorExistente = await Doctor.findOne({
-			$or: [{ email }, { dni }],
+		const emailNormalizado = email?.trim()?.toLowerCase() || null
+		const dniNormalizado = dni?.trim()
+
+		// Verificar si el DNI o email ya existen en cualquier tipo de usuario
+		const usuarioExistente = await Usuario.findOne({
+			$or: [{ dni: dniNormalizado }, ...(emailNormalizado ? [{ email: emailNormalizado }] : [])],
 		})
-		if (doctorExistente) {
-			return res.status(400).json({ message: 'El doctor ya está registrado con ese email o DNI' })
+		if (usuarioExistente) {
+			return res.status(400).json({ message: 'Ya existe un usuario con ese DNI o email' })
 		}
 
 		// Verificar si la matrícula ya existe
@@ -34,8 +38,8 @@ export const registrarDoctor = async (req, res) => {
 
 		// Crear el nuevo doctor
 		const nuevoDoctor = new Doctor({
-			dni,
-			email,
+			dni: dniNormalizado,
+			email: emailNormalizado,
 			password: passwordEncriptada,
 			nombre,
 			apellido,
